@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Si el cwd es un repo git, abre lazygit directamente.
+# Si no (ej: raíz slicesoft), muestra picker fzf con todos los repos.
+
+SLICESOFT_DIR="${SLICESOFT_DIR:-$HOME/dev/slicesoft}"
+
+if git rev-parse --git-dir > /dev/null 2>&1; then
+    exec lazygit
+fi
+
+while true; do
+    repo=$(find "$SLICESOFT_DIR" -maxdepth 1 -mindepth 1 -type d \
+        -exec test -d {}/.git \; -print \
+        | sed "s|$SLICESOFT_DIR/||" | sort \
+        | fzf \
+            --prompt="  repo > " \
+            --preview="git -C \"$SLICESOFT_DIR/{}\" log --oneline --color=always -10 2>/dev/null || echo '(sin commits)'" \
+            --preview-window=right:50%)
+
+    [[ -z "$repo" ]] && break
+    lazygit -p "$SLICESOFT_DIR/$repo"
+done

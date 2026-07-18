@@ -1,0 +1,45 @@
+# SliceSoft Workstation — macOS (Homebrew)
+# Fuente única de paquetes. Uso: brew bundle --file=Brewfile
+# node/go/python NO van aquí: los provee mise (~/.config/mise/config.toml).
+
+# ─── Shell ───────────────────────────────────────────────────────────────────
+brew "zsh"
+brew "zsh-autosuggestions"
+brew "zsh-syntax-highlighting"
+brew "starship"                 # prompt (mismo que Linux)
+brew "atuin"                    # historial de shell con sync
+
+# ─── Terminal / multiplexer ──────────────────────────────────────────────────
+cask "kitty"                    # terminal principal
+brew "zellij"                   # multiplexer
+
+# ─── Editor ──────────────────────────────────────────────────────────────────
+brew "neovim"
+
+# ─── Dev ─────────────────────────────────────────────────────────────────────
+brew "git"
+brew "gh"
+brew "make"
+brew "lazygit"
+brew "mise"                     # gestor de versiones: node, go, python
+brew "colima"                   # runtime de contenedores (docker sin Docker Desktop)
+brew "docker"                   # docker CLI  ->  arranca el daemon con: colima start
+brew "docker-compose"
+
+# ─── CLI utils ───────────────────────────────────────────────────────────────
+brew "ripgrep"
+brew "fd"
+brew "fzf"
+brew "bat"
+brew "eza"
+brew "btop"
+brew "jq"
+brew "curl"
+brew "wget"
+
+# ─── Fuentes ─────────────────────────────────────────────────────────────────
+cask "font-jetbrains-mono-nerd-font"
+
+# ─── Apps ────────────────────────────────────────────────────────────────────
+cask "google-chrome"
+cask "notion"

@@ -1,0 +1,84 @@
+# SliceSoft Workstation — Lista de paquetes
+# CachyOS / Arch Linux
+#
+# [pacman]  sudo pacman -S --needed <pkg>
+# [aur]     yay -S --needed <pkg>
+# [npm]     npm install -g <pkg>   (requiere node 22 via mise)
+
+# ─── Shell ───────────────────────────────────────────────────────────────────
+[pacman] zsh
+[pacman] zsh-autosuggestions   # sugerencias inline
+[pacman] zsh-syntax-highlighting
+[pacman] starship              # prompt (portable Linux + macOS)
+[pacman] atuin                 # historial de shell con sync
+
+# ─── Fuentes ─────────────────────────────────────────────────────────────────
+[pacman] ttf-jetbrains-mono-nerd
+[pacman] ttf-inter
+[pacman] noto-fonts
+[pacman] noto-fonts-emoji
+
+# ─── Terminales ──────────────────────────────────────────────────────────────
+[pacman] kitty                 # terminal principal
+[pacman] alacritty             # terminal alternativa
+[pacman] zellij                # multiplexer
+
+# ─── Window Manager ───────────────────────────────────────────────────────────
+[pacman] hyprland
+[pacman] waybar
+[pacman] rofi                  # launcher de apps
+[pacman] xdg-desktop-portal-hyprland
+[pacman] wl-clipboard          # clipboard Wayland (wl-copy / wl-paste)
+[pacman] grim                  # screenshots
+[pacman] slurp                 # selección de área
+[pacman] dunst                 # notificaciones
+[pacman] polkit-gnome          # autenticación GUI
+[pacman] dolphin               # file manager
+
+# ─── Editor ──────────────────────────────────────────────────────────────────
+[pacman] neovim
+
+# ─── Dev ─────────────────────────────────────────────────────────────────────
+[pacman] git
+[pacman] github-cli
+[pacman] make
+[pacman] docker
+[pacman] docker-compose
+[pacman] lazygit
+
+# ─── CLI utils ───────────────────────────────────────────────────────────────
+[pacman] ripgrep
+[pacman] fd
+[pacman] fzf
+[pacman] bat
+[pacman] eza
+[pacman] btop
+[pacman] jq
+[pacman] curl
+[pacman] wget
+[pacman] unzip
+
+# ─── Audio / brillo / multimedia ──────────────────────────────────────────────
+[pacman] wireplumber
+[pacman] pipewire-pulse
+[pacman] brightnessctl
+[pacman] playerctl             # teclas multimedia (play/pause/next/prev)
+[pacman] libpulse              # pactl — usado por los scripts de audio de waybar
+[pacman] pavucontrol           # mixer GUI (clic medio en el módulo de volumen)
+[pacman] wofi                  # selector de dispositivo de salida (audio-menu.sh)
+
+# ─── Apps ────────────────────────────────────────────────────────────────────
+[aur] google-chrome
+[aur] notion-app-electron
+
+# ─── AUR — Dev tools ─────────────────────────────────────────────────────────
+[aur] mise-bin                 # gestor de versiones: node, go, python
+
+# ─── npm globals (requiere node 22 via mise) ──────────────────────────────────
+[npm] @anthropic-ai/claude-code   # Claude Code CLI
+[npm] @openai/codex               # OpenAI Codex CLI
+
+# ─── Runtimes via mise (~/.config/mise/config.toml) ──────────────────────────
+# node   = "22"   ← LTS (requerido por claude-code y codex)
+# go     = "1.24"
+# python = "3.12"

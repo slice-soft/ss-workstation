@@ -1,0 +1,71 @@
+# SliceSoft — .zshrc  (portable: Linux + macOS)
+# Fuente única. Editar en onboarding/shared/configs/zsh/zshrc (symlink a ~/.zshrc).
+
+# ── PATH ──────────────────────────────────────────────────────────────────────
+export PATH="$HOME/.local/bin:$PATH"
+
+# ── Historial ─────────────────────────────────────────────────────────────────
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+setopt inc_append_history share_history hist_ignore_all_dups hist_reduce_blanks
+
+# ── Completado ────────────────────────────────────────────────────────────────
+if command -v brew &>/dev/null; then
+    fpath=("$(brew --prefix)/share/zsh/site-functions" $fpath)
+fi
+autoload -Uz compinit && compinit -u
+
+# ── Plugins zsh (autosuggestions + syntax highlighting) — path-agnóstico ──────
+_ss_source_first() { local f; for f in "$@"; do [[ -r "$f" ]] && { source "$f"; return; }; done; }
+_ss_source_first \
+    /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh \
+    /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
+    /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+_ss_source_first \
+    /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
+    /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
+    /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# ── Herramientas ──────────────────────────────────────────────────────────────
+command -v mise     &>/dev/null && eval "$(mise activate zsh)"
+command -v starship &>/dev/null && eval "$(starship init zsh)"
+command -v atuin    &>/dev/null && eval "$(atuin init zsh)"
+
+# fzf (keybindings + completion), path-agnóstico
+if command -v fzf &>/dev/null; then
+    if ! source <(fzf --zsh) 2>/dev/null; then
+        _ss_source_first /usr/share/fzf/key-bindings.zsh \
+            /opt/homebrew/opt/fzf/shell/key-bindings.zsh \
+            /usr/local/opt/fzf/shell/key-bindings.zsh
+        _ss_source_first /usr/share/fzf/completion.zsh \
+            /opt/homebrew/opt/fzf/shell/completion.zsh \
+            /usr/local/opt/fzf/shell/completion.zsh
+    fi
+fi
+
+# ── Aliases ───────────────────────────────────────────────────────────────────
+if command -v eza &>/dev/null; then
+    alias ls='eza --icons --group-directories-first'
+    alias ll='eza -la --icons --group-directories-first'
+    alias lt='eza --tree --level=2 --icons'
+fi
+command -v bat &>/dev/null && alias cat='bat --paging=never'
+[[ "$OSTYPE" == linux* ]] && alias off='systemctl poweroff'
+
+# ── SliceSoft — entorno de desarrollo (zellij) ────────────────────────────────
+# Lanza una sesión zellij "dev" fresca en el directorio dado (o el actual)
+devenv() {
+    export DEV_DIR="${1:-$PWD}"
+    zellij kill-session dev 2>/dev/null
+    zellij delete-session dev 2>/dev/null
+    zellij --session dev
+}
+# Adjunta a la sesión dev existente
+devresume() { zellij attach dev; }
+# Fuzzy-picker de repos slicesoft → abre lazygit directo
+lg() { ~/.local/bin/lazygit-smart; }
+
+# ── Overrides locales (por-máquina, NO versionado) ───────────────────────────
+# Pon aquí tus alias/exports específicos de esta máquina (API keys, etc.).
+[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local

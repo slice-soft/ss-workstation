@@ -1,0 +1,64 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+# SliceSoft — Starship: réplica del p10k "rainbow" multilínea. Portable Linux + macOS.
+
+add_newline = true
+command_timeout = 1000
+palette = "ss"
+
+format = """
+[╭─](fg:frame)\
+[](fg:c_os)\
+$os\
+[](fg:c_os bg:c_dir)\
+$directory\
+[](fg:c_dir bg:c_git)\
+$git_branch\
+$git_status\
+[](fg:c_git)\
+$line_break\
+[╰─](fg:frame)$character"""
+
+right_format = "$cmd_duration$time"
+
+[palettes.ss]
+frame = "#6c7086"
+fg0   = "#ffffff"
+black = "#000000"
+c_os  = "#585b70"
+c_dir = "#3b78ff"
+c_git = "#2ea043"
+
+[os]
+disabled = false
+format = "[ $symbol ]($style)"
+style = "fg:fg0 bg:c_os"
+
+[directory]
+format = "[ $path ]($style)"
+style = "fg:fg0 bg:c_dir"
+truncation_length = 3
+truncate_to_repo = true
+truncation_symbol = "…/"
+
+[git_branch]
+format = "[ $symbol$branch ]($style)"
+style = "fg:black bg:c_git"
+
+[git_status]
+format = "[$all_status$ahead_behind ]($style)"
+style = "fg:black bg:c_git"
+
+[character]
+success_symbol = "[ ❯](bold green)"
+error_symbol = "[ ❯](bold red)"
+
+[cmd_duration]
+min_time = 500
+format = "[ $duration ]($style) "
+style = "bold yellow"
+
+[time]
+disabled = false
+time_format = "%H:%M"
+format = "[ $time ]($style)"
+style = "fg:frame"

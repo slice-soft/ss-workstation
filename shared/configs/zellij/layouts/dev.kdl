@@ -1,0 +1,41 @@
+layout {
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        children
+        pane size=2 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
+
+    // Tab principal: nvim + lazygit (columna izquierda) + claude (derecha, full height)
+    // Usa DEV_DIR: `devenv /ruta/proyecto` o `export DEV_DIR=/ruta && zellij`
+    tab name="code" cwd="$DEV_DIR" focus=true {
+        pane split_direction="vertical" {
+
+            // Columna izquierda: nvim (arriba) + lazygit (abajo)
+            pane split_direction="horizontal" size="73%" {
+                pane name="nvim" focus=true {
+                    command "nvim"
+                    args "."
+                }
+                pane name="lazygit" size="32%" {
+                    // lazygit-smart vive en ~/.local/bin (en PATH vía zshrc)
+                    command "lazygit-smart"
+                }
+            }
+
+            // Columna derecha: claude full height
+            pane name="claude" {
+                command "claude"
+                args "--dangerously-skip-permissions"
+            }
+        }
+    }
+
+    // Tab secundario: terminal limpia para comandos
+    tab name="shell" {
+        pane name="shell"
+    }
+}

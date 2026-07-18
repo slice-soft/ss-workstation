@@ -1,0 +1,25 @@
+# SliceSoft — Hyprland overrides por-máquina (NO versionado)
+#
+# Copia este archivo a ~/.config/hypr/local.conf y ajústalo a tu hardware.
+# El instalador lo crea automáticamente desde este ejemplo si no existe.
+# Aquí va todo lo específico de tu equipo: monitores, GPU, workspaces por monitor.
+
+# ─── Monitores ───────────────────────────────────────────────────────────────
+# Verifica los nombres con:  hyprctl monitors
+# Default seguro: autodetecta todas las salidas a su resolución preferida.
+monitor = , preferred, auto, 1.0
+
+# Ejemplo laptop + salida espejo (descomenta y ajusta):
+# monitor = eDP-1,    1920x1080@60, 0x0, 1.0
+# monitor = HDMI-A-1, 1920x1080@60, 0x0, 1.0, mirror, eDP-1
+# monitor = DVI-I-1,  disable
+
+# ─── GPU NVIDIA (descomenta solo si tu equipo tiene NVIDIA) ───────────────────
+# env = LIBVA_DRIVER_NAME,nvidia
+# env = GBM_BACKEND,nvidia-drm
+# env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+# env = NVD_BACKEND,direct
+# env = CHROME_EXTRA_FLAGS,--force-device-scale-factor=1
+
+# ─── Workspaces por monitor (opcional) ───────────────────────────────────────
+# workspace = 1, monitor:eDP-1, persistent:true, default:true

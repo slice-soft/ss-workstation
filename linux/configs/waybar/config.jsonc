@@ -1,0 +1,49 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 20,
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-center": ["clock"],
+  "modules-right": ["cpu", "memory", "network", "custom/volume", "battery"],
+
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate"
+  },
+  "clock": {
+    "format": " {:%H:%M %d/%m/%Y}"
+  },
+  "cpu": {
+    "format": "CPU {usage}%"
+  },
+  "memory": {
+    "format": "RAM {}%"
+  },
+  "network": {
+    "format-wifi": "NET {essid}",
+    "format-ethernet": "ETH {bandwidthDownBits}",
+    "format-disconnected": "NET off"
+  },
+  "custom/volume": {
+    "exec": "$HOME/.config/waybar/scripts/volume.sh",
+    "return-type": "json",
+    "interval": 5,
+    "signal": 8,
+    "tooltip": true,
+    "on-scroll-up": "$HOME/.config/waybar/scripts/volume.sh up",
+    "on-scroll-down": "$HOME/.config/waybar/scripts/volume.sh down",
+    "on-click": "$HOME/.config/waybar/scripts/volume.sh mute",
+    "on-click-right": "$HOME/.config/waybar/scripts/volume.sh menu",
+    "on-click-middle": "pavucontrol"
+  },
+  "battery": {
+    "format": "BAT {capacity}%",
+    "format-charging": "BAT+ {capacity}%",
+    "format-plugged": "BAT= {capacity}%",
+    "states": {
+      "warning": 30,
+      "critical": 15
+    }
+  }
+}
+
