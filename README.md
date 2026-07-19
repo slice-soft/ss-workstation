@@ -48,6 +48,7 @@ macos/
   Brewfile              # single source of truth for packages
 shared/
   configs/              # cross-OS: nvim, kitty, zellij, zsh, starship
+  makefiles/base.mk     # shared build commands, included by every repo's Makefile
 ```
 
 ## How dotfiles work
@@ -58,6 +59,32 @@ versioned and stay local:
 
 - `~/.config/hypr/local.conf` — monitors / GPU (seeded from `local.conf.example`)
 - `~/.zshrc.local` — personal aliases / environment (sourced at the end of `~/.zshrc`)
+
+## Shared build tooling (`base.mk`)
+
+Every SliceSoft repo shares one set of `make` commands (`setup`, `test`, `lint`,
+`clean`, `check-secrets`) so any repo behaves the same. The installer symlinks
+that base to a **fixed path in your home**:
+
+```
+~/.config/slicesoft/base.mk  ->  shared/makefiles/base.mk
+```
+
+Each repo's `Makefile` includes it from there — a stable absolute path, so it
+works no matter where the repo is cloned:
+
+```make
+SS_BASE ?= $(HOME)/.config/slicesoft/base.mk
+ifeq ($(wildcard $(SS_BASE)),)
+    $(error SliceSoft base.mk not found — run the ss-workstation setup)
+endif
+include $(SS_BASE)
+# ...then repo-specific targets (build, run, ...)
+```
+
+A `git pull` here updates the base everywhere at once. External contributors who
+haven't run this setup just get a clear error and use the raw `go`/`npm`
+commands from the repo's `CONTRIBUTING.md`.
 
 ## After setup — join the SliceSoft ecosystem
 

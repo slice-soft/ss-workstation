@@ -169,6 +169,8 @@ link_config "$SHARED_CONFIGS/nvim/init.lua"          "$HOME/.config/nvim/init.lu
 link_config "$SHARED_CONFIGS/nvim/lua/options.lua"   "$HOME/.config/nvim/lua/options.lua"
 link_config "$SHARED_CONFIGS/nvim/lua/keymaps.lua"   "$HOME/.config/nvim/lua/keymaps.lua"
 link_config "$SHARED_CONFIGS/nvim/lua/plugins.lua"   "$HOME/.config/nvim/lua/plugins.lua"
+# Tooling de build compartido — base.mk que incluye el Makefile de cada repo
+link_config "$WORKSTATION_DIR/shared/makefiles/base.mk" "$HOME/.config/slicesoft/base.mk"
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # LISTO
