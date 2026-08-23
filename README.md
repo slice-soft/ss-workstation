@@ -26,7 +26,8 @@ authentication required.
 - **Runtimes** — [mise](https://mise.jdx.dev): Node 22 (LTS), Go 1.24, Python 3.12
 - **CLI** — git, gh, lazygit, ripgrep, fd, fzf, bat, eza, btop, jq, …
 - **npm globals** — Claude Code, Codex
-- **Linux desktop only** — Hyprland (Wayland) + Waybar (with custom audio scripts)
+- **Linux desktop only** — Hyprland (Wayland, uwsm-managed) + Waybar (with custom
+  audio scripts), running as a systemd user service so it restarts on its own
 
 ## OS support
 
@@ -42,7 +43,7 @@ install.sh              # dispatcher — detects OS, clones repo, runs installer
 linux/
   install.sh            # CachyOS/Arch installer (pacman + yay)
   packages.txt          # single source of truth for packages
-  configs/              # Linux-only: hyprland, waybar (+ audio scripts)
+  configs/              # Linux-only: hyprland, waybar (+ audio scripts), systemd units
 macos/
   install.sh            # macOS installer (Homebrew)
   Brewfile              # single source of truth for packages
@@ -59,6 +60,22 @@ versioned and stay local:
 
 - `~/.config/hypr/local.conf` — monitors / GPU (seeded from `local.conf.example`)
 - `~/.zshrc.local` — personal aliases / environment (sourced at the end of `~/.zshrc`)
+
+## Pick the uwsm session at login
+
+At your first login after setup, choose **"Hyprland (uwsm-managed)"** in the
+session selector (top right in SDDM). The display manager remembers it, so it is
+a one-time step.
+
+uwsm starts Hyprland as a proper systemd user session, which is what makes
+`graphical-session.target` activate — and that target is what pulls up
+`waybar.service`. Because the unit carries `Restart=on-failure`, the bar comes
+back on its own when it crashes, including after an update replaces glibc, GTK
+or Wayland underneath the running process.
+
+If you log into the plain **"Hyprland"** session instead, `uwsm finalize` fails
+and `hyprland.conf` falls back to launching `waybar` directly, exactly as before
+— you just lose the auto-restart.
 
 ## Shared build tooling (`base.mk`)
 
