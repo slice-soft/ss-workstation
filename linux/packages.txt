@@ -32,6 +32,7 @@
 [pacman] wl-clipboard          # clipboard Wayland (wl-copy / wl-paste)
 [pacman] grim                  # screenshots
 [pacman] slurp                 # selección de área
+[pacman] satty                 # anotar la captura antes de compartirla
 [pacman] dunst                 # notificaciones
 [pacman] polkit-gnome          # autenticación GUI
 [pacman] dolphin               # file manager
