@@ -25,6 +25,7 @@
 
 # ─── Window Manager ───────────────────────────────────────────────────────────
 [pacman] hyprland
+[pacman] uwsm                  # arranca Hyprland como sesión systemd (graphical-session.target)
 [pacman] waybar
 [pacman] rofi                  # launcher de apps
 [pacman] xdg-desktop-portal-hyprland

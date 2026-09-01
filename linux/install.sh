@@ -210,13 +210,25 @@ if [ ! -f "$HOME/.config/hypr/local.conf" ]; then
     ok "local.conf creado — edita monitores/GPU ahí"
 fi
 link_config "$LINUX_CONFIGS/hyprland/hyprland.conf" "$HOME/.config/hypr/hyprland.conf"
-# Waybar (+ scripts de audio custom)
+# Waybar (+ estilo y scripts de audio custom)
 link_config "$LINUX_CONFIGS/waybar/config.jsonc"    "$HOME/.config/waybar/config.jsonc"
+link_config "$LINUX_CONFIGS/waybar/style.css"       "$HOME/.config/waybar/style.css"
 if [ -e "$HOME/.config/waybar/scripts" ] && [ ! -L "$HOME/.config/waybar/scripts" ]; then
     mv "$HOME/.config/waybar/scripts" "$HOME/.config/waybar/scripts.bak"
 fi
 ln -sfn "$LINUX_CONFIGS/waybar/scripts" "$HOME/.config/waybar/scripts"
 ok "waybar/scripts"
+
+# ── Waybar como servicio de usuario ───────────────────────────────────────────
+# Con "exec-once = waybar" la barra se lanzaba una sola vez y nadie la levantaba
+# si se caía — y se cae al actualizar, porque pacman reemplaza glibc/gtk/wayland
+# bajo el proceso vivo. Como servicio de graphical-session.target (que uwsm da
+# por alcanzado vía "uwsm finalize") systemd la reinicia sola: Restart=on-failure.
+link_config "$LINUX_CONFIGS/systemd/waybar.service.d/override.conf" \
+            "$HOME/.config/systemd/user/waybar.service.d/override.conf"
+systemctl --user daemon-reload
+systemctl --user enable waybar.service &>/dev/null
+ok "waybar.service habilitado (se reinicia solo)"
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # LISTO
@@ -240,6 +252,11 @@ echo ""
 echo -e "  ${YELLOW}4.${NC} Abre una terminal nueva (o ejecuta: source ~/.zshrc)"
 echo -e "  ${YELLOW}5.${NC} Activa Copilot en nvim:  :Copilot setup"
 echo -e "  ${YELLOW}6.${NC} GPU NVIDIA / monitores: edita  ${BLUE}~/.config/hypr/local.conf${NC}"
+echo ""
+echo -e "  ${YELLOW}7.${NC} ${BOLD}En el próximo login, elige la sesión${NC} ${BLUE}\"Hyprland (uwsm-managed)\"${NC}"
+echo -e "     (selector arriba a la derecha en SDDM). El display manager la recuerda,"
+echo -e "     así que es una sola vez. Sin ella no se alcanza graphical-session.target"
+echo -e "     y waybar.service no arranca — la config cae al modo clásico como respaldo."
 echo ""
 echo -e "  ${YELLOW}→${NC} Inicia entorno de desarrollo: devenv ~/dev/slicesoft/\$REPO"
 echo ""
