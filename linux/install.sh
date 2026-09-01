@@ -210,6 +210,13 @@ if [ ! -f "$HOME/.config/hypr/local.conf" ]; then
     ok "local.conf creado — edita monitores/GPU ahí"
 fi
 link_config "$LINUX_CONFIGS/hyprland/hyprland.conf" "$HOME/.config/hypr/hyprland.conf"
+# Scripts que invocan los binds (capturas de pantalla). Se enlaza el directorio
+# entero, igual que waybar/scripts, para que añadir uno nuevo no toque el instalador.
+if [ -e "$HOME/.config/hypr/scripts" ] && [ ! -L "$HOME/.config/hypr/scripts" ]; then
+    mv "$HOME/.config/hypr/scripts" "$HOME/.config/hypr/scripts.bak"
+fi
+ln -sfn "$LINUX_CONFIGS/hyprland/scripts" "$HOME/.config/hypr/scripts"
+ok "hypr/scripts"
 # Waybar (+ estilo y scripts de audio custom)
 link_config "$LINUX_CONFIGS/waybar/config.jsonc"    "$HOME/.config/waybar/config.jsonc"
 link_config "$LINUX_CONFIGS/waybar/style.css"       "$HOME/.config/waybar/style.css"
